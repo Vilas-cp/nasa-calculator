@@ -71,7 +71,7 @@ function Calculator() {
 
       const output = await response.json();
       console.log("Posted data:", output.data);
-      if (result.created == true) {
+      if (output.created == true) {
         toast.success("Data posted successfully!");
         window.location.reload();
       }
