@@ -34,7 +34,7 @@ function Calculator() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/exoplanet-calculator`,
+        `http://localhost:5000/habitable-exoplanet-calculator`,
         {
           method: "POST",
           headers: {
