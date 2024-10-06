@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 
 function Calculator() {
+  const [output,setOutput] = useState('')
   const [inputs, setInputs] = useState({
     R_star: "",
     L_star: "",
@@ -31,6 +32,25 @@ function Calculator() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+      // Convert inputs to the correct types (number)
+      const payload = {
+        R_star: parseFloat(inputs.R_star),
+        L_star: parseFloat(inputs.L_star),
+        T_eff: parseInt(inputs.T_eff, 10),
+        R_planet: parseFloat(inputs.R_planet),
+        M_planet: parseFloat(inputs.M_planet),
+        semi_major_axis: parseFloat(inputs.semi_major_axis),
+        eccentricity: parseFloat(inputs.eccentricity),
+        inclination: parseFloat(inputs.inclination),
+        albedo: parseFloat(inputs.albedo),
+        distance: parseFloat(inputs.distance),
+        D_telescope: parseFloat(inputs.D_telescope),
+        wavelength: parseFloat(inputs.wavelength),
+        IWA: parseFloat(inputs.IWA),
+        OWA: parseFloat(inputs.OWA),
+        contrast_limit: parseFloat(inputs.contrast_limit),
+      };
+  
 
     try {
       const response = await fetch(
@@ -40,7 +60,8 @@ function Calculator() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(inputs),
+          body: JSON.stringify(payload),
+          
         }
       );
 
@@ -48,8 +69,8 @@ function Calculator() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const result = await response.json();
-      console.log("Posted data:", result);
+      const output = await response.json();
+      console.log("Posted data:", output.data);
       if (result.created == true) {
         toast.success("Data posted successfully!");
         window.location.reload();
